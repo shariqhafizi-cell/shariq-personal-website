@@ -89,7 +89,7 @@ Still outstanding:
 
 | Where | What to put there |
 |---|---|
-| Swapping the donuts photo | Replace `assets/img/donuts.jpg`. Lowercase `.jpg`, since Pages serves from a case-sensitive filesystem |
+| Swapping a photo | Replace `assets/img/donuts.jpg` or `assets/img/conference.jpg`. Keep the extension lowercase, since Pages serves from a case-sensitive filesystem |
 | Overview → "what you're looking for" | One line about why someone should mail you |
 | Autonomous Future → byline date | Update it when you revise the essay |
 
