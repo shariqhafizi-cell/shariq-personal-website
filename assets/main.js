@@ -180,14 +180,11 @@
     return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
   }
 
-  /* One source of truth for all three theme controls: the toolbar button,
-     View > Dark theme, and the glass switch. */
+  /* One source of truth for both theme controls: the toolbar button and
+     View > Dark theme. */
   function paintThemeIcon() {
-    var dark = effectiveTheme() === "dark";
     var icon = $("#modeBtn .msym");
-    if (icon) icon.textContent = dark ? "light_mode" : "dark_mode";
-    var glass = $("#glassToggle");
-    if (glass) glass.setAttribute("aria-checked", dark ? "true" : "false");
+    if (icon) icon.textContent = effectiveTheme() === "dark" ? "light_mode" : "dark_mode";
   }
 
   function setTheme(mode) {
@@ -260,11 +257,6 @@
     var savedZoom = store.get("gdocs-zoom");
     if (savedZoom) zoomSel.value = savedZoom;
     zoomSel.addEventListener("change", function () { setZoom(parseFloat(zoomSel.value)); });
-  }
-
-  var glassToggle = $("#glassToggle");
-  if (glassToggle) {
-    glassToggle.addEventListener("click", function () { run("theme"); });
   }
 
   // Draw the right state for whatever we're starting on, without forcing a

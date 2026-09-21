@@ -34,10 +34,10 @@ About. The purely decorative buttons — bold, italic, undo — are marked
 **The tabs are linkable.** `/#experience` opens straight to that page, and the
 URL updates as you switch, so you can send someone directly to one section.
 
-**There are three ways to change the theme** — the liquid-glass switch at the
-bottom right, the toolbar button, and View → Dark theme — and all three read
-and write the same state through `paintThemeIcon()` in `main.js`, so they can't
-disagree. Left alone, the page follows the operating system.
+**There are two ways to change the theme** — the button at the right end of the
+toolbar, and View → Dark theme. Both read and write the same state through
+`paintThemeIcon()` in `main.js`, so they can't disagree. Left alone, the page
+follows the operating system.
 
 **Zoom is one number.** Page width, margins and every text size derive from the
 `--zoom` variable, so the toolbar's zoom control resizes the document the way a
