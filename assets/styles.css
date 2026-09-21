@@ -224,7 +224,10 @@ a { color: inherit; }
   font-weight: 600;
   letter-spacing: -.035em;
   margin-bottom: 26px;
-  max-width: 17ch;
+  max-width: 24ch;
+  /* Lets the browser pick even line lengths instead of a hard-coded <br>,
+     which breaks badly at sizes you didn't test. */
+  text-wrap: balance;
 }
 .hero__title em {
   font-family: var(--serif);
