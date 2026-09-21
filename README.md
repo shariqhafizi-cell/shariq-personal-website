@@ -44,8 +44,10 @@ sheets or the order changes. To add a chapter, add an `<article class="page"
 id="ch-yourslug" tabindex="-1">` and one `<li>` in the `.doc-toc` list pointing
 at it. Because nothing re-flows here, a chapter that outgrows its sheet just
 gets a taller page — when that happens, split the overflow into a second
-`<article class="page">` with no chapter label, the way chapter 3 already does.
-The contents page numbers itself around those continuation sheets.
+`<article class="page">` carrying only the overflow text, the way the
+conference chapter already does. The contents page numbers itself around those
+continuation sheets. Chapter pages carry no "Chapter N" label; the numbering
+lives only in the contents list, where the CSS counter supplies it.
 
 **Photos are optional until the file exists.** A `<figure class="doc-fig"
 data-optional hidden>` holds the image path in `data-src` rather than `src`.
