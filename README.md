@@ -12,6 +12,7 @@ ships.
 index.html          the chrome + the content of every tab
 assets/styles.css   all styling; colour tokens at the top
 assets/main.js      tabs, menus, zoom, theme, ruler
+assets/img/         photos used in the document
 .nojekyll           tells GitHub Pages to serve the files as-is
 ```
 
@@ -41,7 +42,17 @@ contents page links to them, and the page numbers beside each entry are filled
 in from DOM order at load, so they stay correct if a chapter grows to two
 sheets or the order changes. To add a chapter, add an `<article class="page"
 id="ch-yourslug" tabindex="-1">` and one `<li>` in the `.doc-toc` list pointing
-at it.
+at it. Because nothing re-flows here, a chapter that outgrows its sheet just
+gets a taller page — when that happens, split the overflow into a second
+`<article class="page">` with no chapter label, the way chapter 3 already does.
+The contents page numbers itself around those continuation sheets.
+
+**Photos are optional until the file exists.** A `<figure class="doc-fig"
+data-optional hidden>` holds the image path in `data-src` rather than `src`.
+`main.js` pre-loads that path and only reveals the figure once it genuinely
+loads, so a photo you have not added yet shows nothing at all instead of a
+broken image. Images are capped at 240px tall (scaled with `--zoom`) so a
+portrait photo cannot push its chapter onto a second sheet.
 
 **Every control in the chrome does something real.** File → Print, View →
 Dark theme and Zoom, Tools → Word count (it counts the actual text), Help →
@@ -74,7 +85,7 @@ Still outstanding:
 
 | Where | What to put there |
 |---|---|
-| Equitle → all six chapters | Each is a titled page with a placeholder; the text is still to write |
+| The donuts photo | Save it as `assets/img/donuts.jpg` and it appears in chapter 2 by itself. Any shape works; edit the caption in `index.html` |
 | Overview → "what you're looking for" | One line about why someone should mail you |
 | Autonomous Future → byline date | Update it when you revise the essay |
 

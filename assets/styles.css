@@ -442,6 +442,28 @@ a { color: var(--blue); }
 .page--essay .doc-byline { margin-bottom: .2em; }
 .doc-lead { font-size: 1.07em; }
 
+/* A photo inside a chapter. Runs the full width of the text column with a
+   caption under it. main.js hides the whole figure while the image file is
+   missing, so an empty slot never shows a broken icon. */
+.doc-fig { margin: 1.1em 0 1.25em; }
+.doc-fig[hidden] { display: none; }
+/* Capped in height, not stretched to the column, so a photo of any shape can't
+   push the chapter onto a second sheet. The chapter leaves ~360px of room; a
+   240px photo plus its caption uses ~268px of that. */
+.doc-fig img {
+  display: block;
+  max-width: 100%;
+  max-height: calc(240px * var(--zoom));
+  width: auto; height: auto;
+  margin: 0 auto;
+  border-radius: 2px;
+  box-shadow: 0 1px 3px rgba(60, 64, 67, .28);
+}
+.doc-fig figcaption {
+  font-size: .86em; color: var(--txt2);
+  text-align: center; margin-top: .55em;
+}
+
 .entry { margin-bottom: 1.5em; }
 /* The first entry sits right under the page title, where the heading's own
    collapsed top margin leaves it looking cramped. */

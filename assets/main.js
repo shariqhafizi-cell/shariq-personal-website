@@ -281,6 +281,40 @@
   }
 
   /* ---------------------------------------------------------
+     1d. in-doc tab links, and figures whose image isn't there yet
+     --------------------------------------------------------- */
+
+  // A link inside a page pointing at another tab (href="#autonomous-future").
+  // The URL hash only picks a tab on load, so switch tabs here instead.
+  $$("[data-tab-link]").forEach(function (link) {
+    var key = (link.getAttribute("href") || "").slice(1);
+    var index = -1;
+    panels.forEach(function (p, i) { if (p.id === "panel-" + key) index = i; });
+    if (index < 0) return;
+    link.addEventListener("click", function (e) {
+      e.preventDefault();
+      selectTab(index);
+    });
+  });
+
+  // A figure marked data-optional is waiting on a photo that may not be in the
+  // repo yet. It ships hidden with the file in data-src, and is revealed only
+  // once that file has actually loaded, so a missing photo shows nothing at all
+  // rather than a broken image.
+  $$("figure[data-optional]").forEach(function (fig) {
+    var img = fig.querySelector("img[data-src]");
+    if (!img) return;
+    var src = img.getAttribute("data-src");
+    var probe = new Image();
+    probe.onload = function () {
+      img.src = src;
+      img.removeAttribute("data-src");
+      fig.hidden = false;
+    };
+    probe.src = src;   // a 404 here just leaves the figure hidden
+  });
+
+  /* ---------------------------------------------------------
      2. collapsing the tabs rail
      --------------------------------------------------------- */
 
