@@ -48,9 +48,11 @@
      1. tabs — the left panel drives which page is shown
      --------------------------------------------------------- */
 
+  // All document icons, the way a real Docs tab list looks.
   var TAB_ICONS = {
     overview:             "description",
-    "autonomous-future":  "auto_awesome"
+    "autonomous-future":  "article",
+    equitle:              "draft"
   };
 
   var panels = $$(".tabpanel");
@@ -274,7 +276,7 @@
      3. actions shared by the toolbar and the menus
      --------------------------------------------------------- */
 
-  var EMAIL = "shariqhafizi@gmail.com";
+  var EMAIL = "shariq@equitle.com";
 
   function wordCount() {
     var text = panels.map(function (p) { return p.innerText || p.textContent || ""; }).join(" ");

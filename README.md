@@ -66,7 +66,7 @@ Still outstanding:
 
 | Where | What to put there |
 |---|---|
-| LinkedIn URL | Currently `#`, in the Overview contact line |
+| Equitle → "Where it stands" | Who's using it, stage, team size — anything with a number |
 | Overview → "what you're looking for" | One line about why someone should mail you |
 | Autonomous Future → byline date | Update it when you revise the essay |
 
