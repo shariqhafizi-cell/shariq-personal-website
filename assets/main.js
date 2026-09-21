@@ -49,11 +49,9 @@
      --------------------------------------------------------- */
 
   var TAB_ICONS = {
-    overview:   "description",
-    experience: "work_outline",
-    projects:   "folder_open",
-    skills:     "construction",
-    contact:    "mail_outline"
+    overview:             "description",
+    "autonomous-future":  "auto_awesome",
+    contact:              "mail_outline"
   };
 
   var panels = $$(".page");

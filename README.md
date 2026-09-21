@@ -57,12 +57,8 @@ Still outstanding:
 | Where | What to put there |
 |---|---|
 | LinkedIn URL | Currently `#`, in both the Overview and Contact pages |
-| Experience → dates | `20XX – Present` on the Equitle entry |
-| Experience → a result | One concrete outcome with a number in it |
-| Experience → second role, Education | Fill in or delete the blocks |
-| Projects two and three | Real projects, or delete the `<div class="entry">` blocks |
-| Skills | Trim to what you'd be happy to be interviewed on |
 | Overview → "what you're looking for" | One line about why someone should mail you |
+| Autonomous Future → byline date | Update it when you revise the essay |
 
 ### Changing the colours
 

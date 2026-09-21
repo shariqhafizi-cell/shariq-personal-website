@@ -378,6 +378,15 @@ a { color: var(--blue); }
 
 .doc-tech { color: var(--txt2); }
 
+.doc-byline { font-size: .92em; color: var(--txt2); margin: 0 0 .2em; }
+
+/* Long-form pages: a touch more air between paragraphs than a list-heavy
+   page wants, and an opening paragraph set slightly larger to lead in. */
+.page--essay { line-height: 1.7; }
+.page--essay p { margin-bottom: 1.05em; }
+.page--essay .doc-byline { margin-bottom: .2em; }
+.doc-lead { font-size: 1.07em; }
+
 .entry { margin-bottom: 1.5em; }
 /* The first entry sits right under the page title, where the heading's own
    collapsed top margin leaves it looking cramped. */
