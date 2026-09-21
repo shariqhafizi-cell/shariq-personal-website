@@ -1,40 +1,77 @@
 # Shariq Hafizi — personal website
 
-A single-page personal site. Plain HTML, CSS and JavaScript: **no build step, no
-dependencies, no framework**. Open `index.html` in a browser and what you see is
-exactly what ships.
+A personal site built to look like the thing it actually is: a document. The
+page wears Google Docs' chrome — title bar, menus, toolbar, ruler, and a left
+tabs rail — around a white letter-sized sheet.
+
+Plain HTML, CSS and JavaScript: **no build step, no dependencies, no
+framework**. Open `index.html` in a browser and what you see is exactly what
+ships.
 
 ```
-index.html          the whole page — all the copy lives here
-assets/styles.css   all styling; every colour is a variable at the top
-assets/main.js      theme toggle, scroll reveal, footer year
+index.html          the chrome + all five pages of content
+assets/styles.css   all styling; colour tokens at the top
+assets/main.js      tabs, menus, zoom, theme, ruler
 .nojekyll           tells GitHub Pages to serve the files as-is
 ```
 
 ---
 
+## How it's put together
+
+**The left rail is the navigation.** Each `<article class="page">` in
+`index.html` is one tab. The buttons in the rail are generated from those
+articles at load, so the two can never drift — to add a page, copy an
+`<article>` block, give it a unique `id="panel-yourname"` and a
+`data-tab-title`, and the tab appears by itself. Add a matching icon in
+`TAB_ICONS` in `main.js` if you want one that isn't the default.
+
+**Every control in the chrome does something real.** File → Print, View →
+Dark theme and Zoom, Tools → Word count (it counts the actual text), Help →
+About. The purely decorative buttons — bold, italic, undo — are marked
+`data-noop` in the HTML and say so when clicked, rather than failing silently.
+
+**The tabs are linkable.** `/#experience` opens straight to that page, and the
+URL updates as you switch, so you can send someone directly to one section.
+
+**Zoom is one number.** Page width, margins and every text size derive from the
+`--zoom` variable, so the toolbar's zoom control resizes the document the way a
+real one does.
+
+---
+
 ## Editing the content
 
-Everything you'd want to change is in `index.html`, marked with
-`<!-- EDIT ME -->` comments. The spots that still need your input:
+Everything is in `index.html`, marked with `<!-- EDIT ME -->` comments.
+Anything still needing your input is also **highlighted in yellow on the page
+itself**, styled like a Google Docs highlight, so you can spot it by looking
+rather than by reading the source.
+
+Still outstanding:
 
 | Where | What to put there |
 |---|---|
-| `<title>` + `<meta name="description">` | How the page shows up in Google and link previews |
-| Hero heading and intro paragraph | Your one-line pitch and two or three sentences |
-| LinkedIn link in `.socials` | Currently `#` — replace with your profile URL |
-| Project cards two and three | Real projects, or delete the `<article>` blocks |
-| "Outside of that" line in About | One honest personal sentence |
-| `Now` list | Keep this current — a stale "now" reads worse than none |
-| `resume.pdf` | Drop the file in this folder, or delete the Résumé button |
-
-To add a project, copy a whole `<article class="card reveal">…</article>` block.
+| LinkedIn URL | Currently `#`, in both the Overview and Contact pages |
+| Experience → dates | `20XX – Present` on the Equitle entry |
+| Experience → a result | One concrete outcome with a number in it |
+| Experience → second role, Education | Fill in or delete the blocks |
+| Projects two and three | Real projects, or delete the `<div class="entry">` blocks |
+| Skills | Trim to what you'd be happy to be interviewed on |
+| Overview → "what you're looking for" | One line about why someone should mail you |
 
 ### Changing the colours
 
-Every colour is a CSS variable at the top of `assets/styles.css`. Change
-`--accent` in both the light block (`:root`) and the two dark blocks and the
-entire site follows. Nothing else needs touching.
+Every colour is a CSS variable at the top of `assets/styles.css`. The dark
+theme is defined **twice** on purpose — once under
+`@media (prefers-color-scheme: dark)` for people whose OS is dark, and once
+under `:root[data-theme="dark"]` for the manual toggle. CSS has no way to share
+one block between the two, so if you change a dark colour, change it in both.
+
+### Printing
+
+`@media print` strips the entire chrome and prints just the document, in black
+on white, with the yellow placeholder highlights removed. So File → Print
+produces a clean résumé PDF, not a screenshot of a browser.
 
 ---
 
@@ -45,32 +82,31 @@ cd ~/code/shariq-personal-website
 python3 -m http.server 8080
 ```
 
-Then open <http://localhost:8080>. (Opening `index.html` directly with
-`file://` mostly works too, but a local server matches production exactly.)
+Then open <http://localhost:8080>. There's no live-reload, so hard-refresh
+(⌘⇧R) after an edit.
 
 ---
 
 ## Publishing
 
-The site is hosted on **GitHub Pages**, served straight from the `main` branch.
+Hosted on **GitHub Pages**, served from the `main` branch root.
 
 1. Push to `main`.
-2. In the repo: **Settings → Pages → Build and deployment**
+2. **Settings → Pages → Build and deployment**
    - Source: **Deploy from a branch**
    - Branch: **`main`**, folder: **`/ (root)`**
-3. Wait about a minute. The first deploy is the slowest.
+3. Give it a minute. The first deploy is the slowest.
 
-Every later `git push` redeploys automatically.
+Every later `git push` redeploys automatically. `../publish-personal-website.sh`
+does the repo creation, push and Pages setup in one go.
 
 ### Custom domain
 
-Once you're ready to point your domain at the site:
+1. **Settings → Pages → Custom domain** → enter it → **Save**. GitHub writes a
+   `CNAME` file into the repo for you.
+2. At your registrar, add these DNS records:
 
-1. Repo **Settings → Pages → Custom domain** → enter the domain → **Save**.
-   GitHub commits a `CNAME` file to the repo for you.
-2. At your domain registrar, add these DNS records:
-
-   **For the apex domain** (`yourdomain.com`) — four `A` records:
+   **Apex domain** (`yourdomain.com`) — four `A` records:
 
    ```
    A   @   185.199.108.153
@@ -79,14 +115,13 @@ Once you're ready to point your domain at the site:
    A   @   185.199.111.153
    ```
 
-   **For `www`** — one `CNAME` record:
+   **`www`** — one `CNAME` record:
 
    ```
    CNAME   www   <your-github-username>.github.io
    ```
 
-3. Back in Settings → Pages, tick **Enforce HTTPS** once the certificate is
-   issued. That can take up to a few hours after DNS resolves; the checkbox
-   stays greyed out until it's ready.
+3. Tick **Enforce HTTPS** once the certificate is issued. That can take a few
+   hours after DNS resolves; the checkbox stays greyed out until it's ready.
 
-DNS changes usually take 10–30 minutes to propagate, occasionally longer.
+DNS usually propagates in 10–30 minutes, occasionally longer.

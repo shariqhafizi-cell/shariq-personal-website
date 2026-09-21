@@ -9,241 +9,375 @@
 <meta name="description" content="Shariq Hafizi — software engineer and founder building AI-driven deal sourcing and outreach software.">
 <meta name="author" content="Shariq Hafizi">
 
-<!-- Link previews (iMessage, Slack, LinkedIn, X). EDIT the url once your domain is live. -->
 <meta property="og:type" content="website">
 <meta property="og:title" content="Shariq Hafizi">
 <meta property="og:description" content="Software engineer and founder building AI-driven deal sourcing and outreach software.">
 <meta property="og:site_name" content="Shariq Hafizi">
 <meta name="twitter:card" content="summary_large_image">
 
-<!-- Monogram favicon, inlined so there is no extra file to host -->
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230d1117'/%3E%3Ctext x='50%25' y='50%25' dy='.35em' text-anchor='middle' font-family='Helvetica,Arial,sans-serif' font-size='28' font-weight='700' fill='%23e8eaed'%3ESH%3C/text%3E%3C/svg%3E">
+<!-- Docs-blue page icon -->
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='10' fill='%231a73e8'/%3E%3Cpath d='M20 14h16l10 10v26a2 2 0 0 1-2 2H20a2 2 0 0 1-2-2V16a2 2 0 0 1 2-2Z' fill='%23fff'/%3E%3Cpath d='M36 14l10 10H36V14Z' fill='%23a8c7fa'/%3E%3Cg stroke='%231a73e8' stroke-width='2.4' stroke-linecap='round'%3E%3Cpath d='M25 32h14M25 38h14M25 44h9'/%3E%3C/g%3E%3C/svg%3E">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+<!-- display=block so the ligature names ("print", "star") never flash as text -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&display=block" rel="stylesheet">
 
 <link rel="stylesheet" href="assets/styles.css">
 
 <script>
-  /* Runs before first paint: marks that JS is alive (so the scroll-reveal
-     animation is safe to use) and applies a saved theme with no flash. */
+  /* Before first paint: flag that JS is alive and restore saved theme/zoom
+     so nothing flashes. */
   (function () {
     var root = document.documentElement;
     root.className += " js";
     try {
-      var saved = localStorage.getItem("theme");
-      if (saved === "light" || saved === "dark") root.setAttribute("data-theme", saved);
-    } catch (e) { /* private mode / blocked storage — system theme is fine */ }
+      var t = localStorage.getItem("gdocs-theme");
+      if (t === "dark" || t === "light") root.setAttribute("data-theme", t);
+      var z = localStorage.getItem("gdocs-zoom");
+      if (z) root.style.setProperty("--zoom", z);
+    } catch (e) { /* storage blocked — defaults are fine */ }
   })();
 </script>
 </head>
 
-<body id="top">
-<a class="skip-link" href="#main">Skip to content</a>
+<body>
+<a class="skip-link" href="#doc">Skip to document</a>
 
-<header class="nav" id="nav">
-  <div class="nav__inner">
-    <a class="nav__brand" href="#top">
-      <span class="nav__mark" aria-hidden="true">SH</span>
-      <span>Shariq&nbsp;Hafizi</span>
+<div class="app">
+
+  <!-- ================= TITLE BAR ================= -->
+  <header class="topbar">
+    <a class="topbar__logo" href="#doc" aria-label="Home">
+      <svg viewBox="0 0 64 64" aria-hidden="true">
+        <path d="M14 6h24l14 14v36a4 4 0 0 1-4 4H14a4 4 0 0 1-4-4V10a4 4 0 0 1 4-4Z" fill="#1a73e8"/>
+        <path d="M38 6l14 14H38V6Z" fill="#a8c7fa"/>
+        <g stroke="#fff" stroke-width="3" stroke-linecap="round">
+          <path d="M20 30h24M20 38h24M20 46h16"/>
+        </g>
+      </svg>
     </a>
 
-    <nav class="nav__links" aria-label="Sections">
-      <a href="#work">Work</a>
-      <a href="#about">About</a>
-      <a href="#contact">Contact</a>
-    </nav>
+    <div class="topbar__main">
+      <div class="topbar__titlerow">
+        <h1 class="topbar__title">Shariq Hafizi</h1>
+        <button class="iconbtn iconbtn--sm" id="starBtn" type="button"
+                aria-pressed="false" aria-label="Star this document">
+          <span class="msym">star</span>
+        </button>
+        <span class="topbar__saved" id="savedState">All changes saved</span>
+      </div>
 
-    <button class="theme-toggle" id="themeToggle" type="button"
-            aria-label="Switch between light and dark theme">
-      <svg class="theme-toggle__sun" viewBox="0 0 24 24" aria-hidden="true">
-        <circle cx="12" cy="12" r="4.2"/>
-        <path d="M12 2v2.4M12 19.6V22M4.2 4.2l1.7 1.7M18.1 18.1l1.7 1.7M2 12h2.4M19.6 12H22M4.2 19.8l1.7-1.7M18.1 5.9l1.7-1.7"/>
-      </svg>
-      <svg class="theme-toggle__moon" viewBox="0 0 24 24" aria-hidden="true">
-        <path d="M20 14.2A8.2 8.2 0 0 1 9.8 4 8.4 8.4 0 1 0 20 14.2Z"/>
-      </svg>
-    </button>
+      <nav class="menubar" id="menubar" aria-label="Document menu">
+        <!-- Buttons are generated from the config in main.js so every item
+             in every dropdown actually does something. -->
+      </nav>
+    </div>
+
+    <div class="topbar__actions">
+      <button class="iconbtn" id="printBtn" type="button" aria-label="Print this page">
+        <span class="msym">print</span>
+      </button>
+      <a class="btn-share" href="mailto:shariqhafizi@gmail.com">
+        <span class="msym">lock</span>
+        Share
+      </a>
+      <span class="avatar" aria-hidden="true">SH</span>
+    </div>
+  </header>
+
+  <!-- ================= TOOLBAR ================= -->
+  <div class="toolbarwrap">
+    <div class="toolbar" role="toolbar" aria-label="Formatting">
+      <button class="iconbtn" type="button" aria-label="Undo" data-noop><span class="msym">undo</span></button>
+      <button class="iconbtn" type="button" aria-label="Redo" data-noop><span class="msym">redo</span></button>
+      <button class="iconbtn" type="button" aria-label="Print" data-action="print"><span class="msym">print</span></button>
+      <button class="iconbtn" type="button" aria-label="Spelling check" data-noop><span class="msym">spellcheck</span></button>
+      <button class="iconbtn" type="button" aria-label="Paint format" data-noop><span class="msym">format_paint</span></button>
+
+      <span class="tdiv"></span>
+
+      <label class="sr-only" for="zoomSel">Zoom</label>
+      <select class="tsel" id="zoomSel">
+        <option value="0.75">75%</option>
+        <option value="0.9">90%</option>
+        <option value="1" selected>100%</option>
+        <option value="1.25">125%</option>
+        <option value="1.5">150%</option>
+      </select>
+
+      <span class="tdiv"></span>
+
+      <span class="tsel tsel--static">Normal text</span>
+      <span class="tdiv"></span>
+      <span class="tsel tsel--static">Arial</span>
+
+      <span class="tdiv"></span>
+
+      <button class="iconbtn" type="button" aria-label="Bold" data-noop><span class="msym">format_bold</span></button>
+      <button class="iconbtn" type="button" aria-label="Italic" data-noop><span class="msym">format_italic</span></button>
+      <button class="iconbtn" type="button" aria-label="Underline" data-noop><span class="msym">format_underlined</span></button>
+      <button class="iconbtn" type="button" aria-label="Text colour" data-noop><span class="msym">format_color_text</span></button>
+
+      <span class="tdiv tdiv--hide-sm"></span>
+
+      <button class="iconbtn hide-sm" type="button" aria-label="Insert link" data-action="copy-email"><span class="msym">link</span></button>
+      <button class="iconbtn hide-sm" type="button" aria-label="Add comment" data-action="email"><span class="msym">add_comment</span></button>
+      <button class="iconbtn hide-sm" type="button" aria-label="Align" data-noop><span class="msym">format_align_left</span></button>
+      <button class="iconbtn hide-sm" type="button" aria-label="Line spacing" data-noop><span class="msym">format_line_spacing</span></button>
+      <button class="iconbtn hide-sm" type="button" aria-label="Bulleted list" data-noop><span class="msym">format_list_bulleted</span></button>
+
+      <span class="toolbar__spacer"></span>
+
+      <button class="iconbtn" id="modeBtn" type="button" aria-label="Editing mode" data-action="theme">
+        <span class="msym">edit</span>
+      </button>
+    </div>
   </div>
-</header>
 
-<main id="main">
+  <!-- ================= BODY: TABS + CANVAS ================= -->
+  <div class="body">
 
-  <!-- ================= HERO ================= -->
-  <section class="hero">
-    <div class="wrap">
-      <p class="eyebrow reveal">
-        <span class="dot" aria-hidden="true"></span>
-        <!-- EDIT ME -->
-        Building at Equitle
-      </p>
-
-      <!-- EDIT ME: the one line people should remember -->
-      <h1 class="hero__title reveal">
-        I build software that finds the <em>deals</em> other people miss.
-      </h1>
-
-      <!-- EDIT ME: two or three sentences, plain language, no buzzwords -->
-      <p class="lede reveal">
-        I&rsquo;m Shariq &mdash; a software engineer and founder. I work on AI-driven
-        research and outreach tooling for investors and brokers: systems that read the
-        market, surface the right owners, and start real conversations at scale.
-      </p>
-
-      <div class="actions reveal">
-        <a class="btn btn--primary" href="mailto:shariqhafizi@gmail.com">
-          Get in touch
-          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-        </a>
-        <!-- Résumé button: drop a resume.pdf in this folder, then delete the two
-             comment markers below to switch it on. Left off for now so the live
-             site has no link that 404s. -->
-        <!--
-        <a class="btn" href="resume.pdf">Résumé</a>
-        -->
+    <!-- Left tabs panel, the way Google Docs lists document tabs -->
+    <aside class="tabs" id="tabsPanel" aria-label="Document tabs">
+      <div class="tabs__head">
+        <span class="tabs__headtitle">Tabs &amp; outlines</span>
+        <button class="iconbtn iconbtn--sm" id="tabsCollapse" type="button" aria-label="Hide tabs">
+          <span class="msym">left_panel_close</span>
+        </button>
       </div>
 
-      <ul class="socials reveal" aria-label="Elsewhere">
-        <!-- EDIT ME: replace the # with your real profile URLs -->
-        <li><a href="https://github.com/shariqhafizi-cell">GitHub</a></li>
-        <li><a href="#">LinkedIn</a></li>
-        <li><a href="https://equitle.com">Equitle</a></li>
-      </ul>
-    </div>
-  </section>
-
-  <!-- ================= WORK ================= -->
-  <section id="work" class="section">
-    <div class="wrap">
-      <h2 class="section__title reveal"><span class="num">01</span> Selected work</h2>
-
-      <div class="cards">
-        <!-- EDIT ME: one card per project. Copy a whole <article> to add another. -->
-        <article class="card reveal">
-          <div class="card__head">
-            <h3>Equitle</h3>
-            <span class="tag">Founder</span>
-          </div>
-          <p>
-            A deal-sourcing platform for buy-side firms and brokers. Research agents
-            build a thesis, rank a market, and run outreach across email, calls, and
-            handwritten letters &mdash; all from one place.
-          </p>
-          <ul class="stack">
-            <li>TypeScript</li><li>React</li><li>Node</li><li>Postgres</li><li>AWS</li>
-          </ul>
-          <a class="card__link" href="https://equitle.com">
-            equitle.com
-            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg>
-          </a>
-        </article>
-
-        <article class="card reveal">
-          <div class="card__head">
-            <h3>Project two</h3>
-            <span class="tag">Side project</span>
-          </div>
-          <p>
-            EDIT ME &mdash; one short paragraph: what it is, who it&rsquo;s for, and the
-            one thing that made it hard. Skip the adjectives; the specifics do the work.
-          </p>
-          <ul class="stack">
-            <li>Add</li><li>your</li><li>stack</li>
-          </ul>
-          <a class="card__link" href="#">
-            View project
-            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg>
-          </a>
-        </article>
-
-        <article class="card reveal">
-          <div class="card__head">
-            <h3>Project three</h3>
-            <span class="tag">Open source</span>
-          </div>
-          <p>
-            EDIT ME &mdash; or delete this whole card. Three strong projects beat six
-            weak ones.
-          </p>
-          <ul class="stack">
-            <li>Add</li><li>your</li><li>stack</li>
-          </ul>
-          <a class="card__link" href="#">
-            View project
-            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg>
-          </a>
-        </article>
+      <div class="tabs__list" role="tablist" aria-orientation="vertical">
+        <!-- Generated in main.js from the panels below, so the two can't drift -->
       </div>
-    </div>
-  </section>
 
-  <!-- ================= ABOUT ================= -->
-  <section id="about" class="section section--alt">
-    <div class="wrap">
-      <h2 class="section__title reveal"><span class="num">02</span> About</h2>
+      <p class="tabs__hint">Use <kbd>&uarr;</kbd> <kbd>&darr;</kbd> to move between tabs</p>
+    </aside>
 
-      <div class="about">
-        <div class="about__prose reveal">
-          <!-- EDIT ME: this is the part people actually read. Write it like you talk. -->
-          <p>
-            I like problems where the hard part isn&rsquo;t the code &mdash; it&rsquo;s
-            deciding what the system should believe. Most of my work sits at that line:
-            turning messy, partial, real-world data into something a person can act on
-            without second-guessing it.
-          </p>
-          <p>
-            Lately that means AI agents that do research end to end, pipelines that hold
-            up when the data is wrong, and interfaces that make a hundred decisions feel
-            like three.
-          </p>
-          <p>
-            Outside of that: EDIT ME &mdash; one honest line about what you do when
-            you&rsquo;re not working. It makes the whole page feel human.
-          </p>
-        </div>
+    <!-- Show-tabs button, visible only once the panel is collapsed -->
+    <button class="tabs__reopen" id="tabsReopen" type="button" aria-label="Show tabs" hidden>
+      <span class="msym">left_panel_open</span>
+    </button>
 
-        <aside class="about__side reveal">
-          <h3 class="about__label">What I work with</h3>
-          <!-- EDIT ME -->
-          <ul class="chips">
-            <li>TypeScript</li><li>React</li><li>Node.js</li><li>Python</li>
-            <li>PostgreSQL</li><li>AWS</li><li>Docker</li><li>LLM tooling</li>
+    <!-- Grey canvas holding the ruler and the white page -->
+    <main class="canvas" id="doc">
+      <div class="ruler" id="ruler" aria-hidden="true"></div>
+
+      <div class="pagezone">
+
+        <!-- ---------- TAB 1: OVERVIEW ---------- -->
+        <article class="page" id="panel-overview" role="tabpanel"
+                 aria-labelledby="tab-overview" data-tab-title="Overview">
+          <h2 class="doc-h1">Shariq Hafizi</h2>
+          <p class="doc-sub">Software Engineer &amp; Founder</p>
+          <p class="doc-meta">
+            <a href="mailto:shariqhafizi@gmail.com">shariqhafizi@gmail.com</a>
+            &nbsp;&middot;&nbsp;
+            <a href="https://github.com/shariqhafizi-cell">GitHub</a>
+            &nbsp;&middot;&nbsp;
+            <!-- EDIT ME: replace # with your LinkedIn URL -->
+            <a href="#">LinkedIn</a>
+            &nbsp;&middot;&nbsp;
+            <a href="https://equitle.com">equitle.com</a>
+          </p>
+
+          <hr class="doc-rule">
+
+          <h3 class="doc-h2">Summary</h3>
+          <!-- EDIT ME: this is the paragraph people actually read -->
+          <p>
+            I build software that finds the deals other people miss. My work sits where
+            messy, partial, real-world data has to become something a person can act on
+            without second-guessing it &mdash; research agents that run end to end,
+            pipelines that hold up when the data is wrong, and interfaces that make a
+            hundred decisions feel like three.
+          </p>
+
+          <h3 class="doc-h2">At a glance</h3>
+          <ul class="doc-list">
+            <li>Founder and engineer at <strong>Equitle</strong>, an AI deal-sourcing
+              platform for buy-side firms and brokers.</li>
+            <li>Full-stack: TypeScript and React on the front, Node and Postgres behind it,
+              running on AWS.</li>
+            <li>Day to day: LLM agent design, data pipelines, and outreach systems that
+              send real email, calls, and letters.</li>
+            <li class="hl">EDIT ME &mdash; add a line about what you're looking for, or
+              what you'd like to be contacted about.</li>
           </ul>
 
-          <h3 class="about__label">Now</h3>
-          <!-- EDIT ME: keep this current. A stale "now" is worse than none. -->
-          <ul class="now">
+          <h3 class="doc-h2">Now</h3>
+          <ul class="doc-list">
             <li>Building Equitle</li>
             <li>Writing about AI agents in production</li>
             <li>Open to interesting conversations</li>
           </ul>
-        </aside>
-      </div>
-    </div>
-  </section>
+        </article>
 
-  <!-- ================= CONTACT ================= -->
-  <section id="contact" class="section">
-    <div class="wrap contact">
-      <h2 class="section__title reveal"><span class="num">03</span> Contact</h2>
-      <p class="contact__lede reveal">
-        The fastest way to reach me is email. I read everything.
-      </p>
-      <a class="contact__mail reveal" href="mailto:shariqhafizi@gmail.com">
-        shariqhafizi@gmail.com
-      </a>
-    </div>
-  </section>
+        <!-- ---------- TAB 2: EXPERIENCE ---------- -->
+        <article class="page" id="panel-experience" role="tabpanel"
+                 aria-labelledby="tab-experience" data-tab-title="Experience" hidden>
+          <h2 class="doc-h1">Experience</h2>
 
-</main>
+          <div class="entry">
+            <div class="entry__head">
+              <h3 class="doc-h2">Equitle</h3>
+              <!-- EDIT ME: real dates -->
+              <span class="entry__when hl">EDIT ME &mdash; 20XX &ndash; Present</span>
+            </div>
+            <p class="entry__role">Founder &amp; Software Engineer</p>
+            <ul class="doc-list">
+              <li>Built a deal-sourcing platform that turns an investment thesis into a
+                ranked market, then runs outreach against it across email, calls, and
+                handwritten letters from one place.</li>
+              <li>Designed the AI research layer: agents that enrich companies and owners,
+                cite their sources, and fail closed rather than guess.</li>
+              <li>Shipped the whole stack &mdash; React front end, Node services, Postgres,
+                deployed on AWS ECS.</li>
+              <li class="hl">EDIT ME &mdash; add a result with a number in it. One concrete
+                outcome beats three descriptions.</li>
+            </ul>
+          </div>
 
-<footer class="footer">
-  <div class="wrap footer__inner">
-    <span>&copy; <span id="year">2026</span> Shariq Hafizi</span>
-    <a href="#top">Back to top &uarr;</a>
+          <div class="entry">
+            <div class="entry__head">
+              <h3 class="doc-h2 hl">EDIT ME &mdash; Previous company</h3>
+              <span class="entry__when hl">20XX &ndash; 20XX</span>
+            </div>
+            <p class="entry__role hl">Your title</p>
+            <ul class="doc-list">
+              <li class="hl">What you owned, what you shipped, and what changed because of
+                it. Delete this whole block if Equitle is the only entry you want.</li>
+            </ul>
+          </div>
+
+          <h3 class="doc-h2">Education</h3>
+          <div class="entry">
+            <div class="entry__head">
+              <h4 class="doc-h3 hl">EDIT ME &mdash; University</h4>
+              <span class="entry__when hl">20XX</span>
+            </div>
+            <p class="entry__role hl">Degree, field of study</p>
+          </div>
+        </article>
+
+        <!-- ---------- TAB 3: PROJECTS ---------- -->
+        <article class="page" id="panel-projects" role="tabpanel"
+                 aria-labelledby="tab-projects" data-tab-title="Projects" hidden>
+          <h2 class="doc-h1">Projects</h2>
+
+          <div class="entry">
+            <h3 class="doc-h2">Equitle <span class="chip">Founder</span></h3>
+            <p>
+              A deal-sourcing platform for buy-side firms and brokers. Research agents
+              build a thesis, rank a market, and run outreach across email, calls, and
+              handwritten letters &mdash; all from one place.
+            </p>
+            <p class="doc-tech"><strong>Stack:</strong> TypeScript, React, Node, Postgres, AWS</p>
+            <p><a href="https://equitle.com">equitle.com &#8599;</a></p>
+          </div>
+
+          <div class="entry">
+            <h3 class="doc-h2 hl">EDIT ME &mdash; Project two <span class="chip">Side project</span></h3>
+            <p class="hl">
+              One short paragraph: what it is, who it's for, and the one thing that made
+              it hard. Skip the adjectives &mdash; the specifics do the work.
+            </p>
+            <p class="doc-tech hl"><strong>Stack:</strong> add yours</p>
+          </div>
+
+          <div class="entry">
+            <h3 class="doc-h2 hl">EDIT ME &mdash; Project three <span class="chip">Open source</span></h3>
+            <p class="hl">
+              Or delete this whole block. Three strong projects beat six weak ones.
+            </p>
+            <p class="doc-tech hl"><strong>Stack:</strong> add yours</p>
+          </div>
+        </article>
+
+        <!-- ---------- TAB 4: SKILLS ---------- -->
+        <article class="page" id="panel-skills" role="tabpanel"
+                 aria-labelledby="tab-skills" data-tab-title="Skills" hidden>
+          <h2 class="doc-h1">Skills</h2>
+
+          <h3 class="doc-h2">Languages</h3>
+          <p class="doc-tech">TypeScript &middot; JavaScript &middot; Python &middot; SQL</p>
+
+          <h3 class="doc-h2">Front end</h3>
+          <p class="doc-tech">React &middot; Vite &middot; MUI &middot; HTML &amp; CSS</p>
+
+          <h3 class="doc-h2">Back end &amp; data</h3>
+          <p class="doc-tech">Node.js &middot; Express &middot; PostgreSQL &middot; Firebase &middot; Redis</p>
+
+          <h3 class="doc-h2">Infrastructure</h3>
+          <p class="doc-tech">AWS (ECS, Aurora, S3) &middot; Docker &middot; GitHub Actions</p>
+
+          <h3 class="doc-h2">AI &amp; agents</h3>
+          <p class="doc-tech">LLM tooling &middot; retrieval &middot; evaluation &middot; prompt and agent design</p>
+
+          <p class="hl">
+            EDIT ME &mdash; trim this to what you'd actually be happy to be interviewed on.
+            A shorter, honest list reads far stronger than a long one.
+          </p>
+        </article>
+
+        <!-- ---------- TAB 5: CONTACT ---------- -->
+        <article class="page" id="panel-contact" role="tabpanel"
+                 aria-labelledby="tab-contact" data-tab-title="Contact" hidden>
+          <h2 class="doc-h1">Contact</h2>
+
+          <p>The fastest way to reach me is email. I read everything.</p>
+
+          <table class="doc-table">
+            <tbody>
+              <tr>
+                <th scope="row">Email</th>
+                <td><a href="mailto:shariqhafizi@gmail.com">shariqhafizi@gmail.com</a></td>
+              </tr>
+              <tr>
+                <th scope="row">GitHub</th>
+                <td><a href="https://github.com/shariqhafizi-cell">github.com/shariqhafizi-cell</a></td>
+              </tr>
+              <tr>
+                <th scope="row">LinkedIn</th>
+                <!-- EDIT ME -->
+                <td class="hl"><a href="#">EDIT ME &mdash; add your LinkedIn URL</a></td>
+              </tr>
+              <tr>
+                <th scope="row">Company</th>
+                <td><a href="https://equitle.com">equitle.com</a></td>
+              </tr>
+            </tbody>
+          </table>
+
+          <p class="doc-note">
+            Prefer a call? <span class="hl">EDIT ME &mdash; drop a scheduling link here,
+            or delete this line.</span>
+          </p>
+        </article>
+
+      </div><!-- /pagezone -->
+
+      <footer class="canvas__foot">
+        <span>Last edited <span id="editedOn">today</span></span>
+      </footer>
+    </main>
+  </div><!-- /body -->
+</div><!-- /app -->
+
+<!-- Dropdown menu, moved under whichever menu button is open -->
+<div class="dropdown" id="dropdown" hidden role="menu"></div>
+
+<!-- Small dialogs for Word count / About / Shortcuts -->
+<dialog class="dlg" id="dlg">
+  <h2 class="dlg__title" id="dlgTitle"></h2>
+  <div class="dlg__body" id="dlgBody"></div>
+  <div class="dlg__foot">
+    <button class="dlg__ok" type="button" id="dlgOk">OK</button>
   </div>
-</footer>
+</dialog>
+
+<div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
 
 <script src="assets/main.js"></script>
 </body>
