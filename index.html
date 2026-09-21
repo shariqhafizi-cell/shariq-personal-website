@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- EDIT ME: title + description are what Google and link previews show -->
+<title>Shariq Hafizi</title>
+<meta name="description" content="Shariq Hafizi — software engineer and founder building AI-driven deal sourcing and outreach software.">
+<meta name="author" content="Shariq Hafizi">
+
+<!-- Link previews (iMessage, Slack, LinkedIn, X). EDIT the url once your domain is live. -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="Shariq Hafizi">
+<meta property="og:description" content="Software engineer and founder building AI-driven deal sourcing and outreach software.">
+<meta property="og:site_name" content="Shariq Hafizi">
+<meta name="twitter:card" content="summary_large_image">
+
+<!-- Monogram favicon, inlined so there is no extra file to host -->
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230d1117'/%3E%3Ctext x='50%25' y='50%25' dy='.35em' text-anchor='middle' font-family='Helvetica,Arial,sans-serif' font-size='28' font-weight='700' fill='%23e8eaed'%3ESH%3C/text%3E%3C/svg%3E">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="assets/styles.css">
+
+<script>
+  /* Runs before first paint: marks that JS is alive (so the scroll-reveal
+     animation is safe to use) and applies a saved theme with no flash. */
+  (function () {
+    var root = document.documentElement;
+    root.className += " js";
+    try {
+      var saved = localStorage.getItem("theme");
+      if (saved === "light" || saved === "dark") root.setAttribute("data-theme", saved);
+    } catch (e) { /* private mode / blocked storage — system theme is fine */ }
+  })();
+</script>
+</head>
+
+<body id="top">
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="nav" id="nav">
+  <div class="nav__inner">
+    <a class="nav__brand" href="#top">
+      <span class="nav__mark" aria-hidden="true">SH</span>
+      <span>Shariq&nbsp;Hafizi</span>
+    </a>
+
+    <nav class="nav__links" aria-label="Sections">
+      <a href="#work">Work</a>
+      <a href="#about">About</a>
+      <a href="#contact">Contact</a>
+    </nav>
+
+    <button class="theme-toggle" id="themeToggle" type="button"
+            aria-label="Switch between light and dark theme">
+      <svg class="theme-toggle__sun" viewBox="0 0 24 24" aria-hidden="true">
+        <circle cx="12" cy="12" r="4.2"/>
+        <path d="M12 2v2.4M12 19.6V22M4.2 4.2l1.7 1.7M18.1 18.1l1.7 1.7M2 12h2.4M19.6 12H22M4.2 19.8l1.7-1.7M18.1 5.9l1.7-1.7"/>
+      </svg>
+      <svg class="theme-toggle__moon" viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M20 14.2A8.2 8.2 0 0 1 9.8 4 8.4 8.4 0 1 0 20 14.2Z"/>
+      </svg>
+    </button>
+  </div>
+</header>
+
+<main id="main">
+
+  <!-- ================= HERO ================= -->
+  <section class="hero">
+    <div class="wrap">
+      <p class="eyebrow reveal">
+        <span class="dot" aria-hidden="true"></span>
+        <!-- EDIT ME -->
+        Building at Equitle
+      </p>
+
+      <!-- EDIT ME: the one line people should remember -->
+      <h1 class="hero__title reveal">
+        I build software that finds<br>
+        the <em>deals</em> other people miss.
+      </h1>
+
+      <!-- EDIT ME: two or three sentences, plain language, no buzzwords -->
+      <p class="lede reveal">
+        I&rsquo;m Shariq &mdash; a software engineer and founder. I work on AI-driven
+        research and outreach tooling for investors and brokers: systems that read the
+        market, surface the right owners, and start real conversations at scale.
+      </p>
+
+      <div class="actions reveal">
+        <a class="btn btn--primary" href="mailto:shariqhafizi@gmail.com">
+          Get in touch
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </a>
+        <!-- EDIT ME: drop resume.pdf in this folder, or delete this button -->
+        <a class="btn" href="resume.pdf">Résumé</a>
+      </div>
+
+      <ul class="socials reveal" aria-label="Elsewhere">
+        <!-- EDIT ME: replace the # with your real profile URLs -->
+        <li><a href="https://github.com/shariqhafizi-cell">GitHub</a></li>
+        <li><a href="#">LinkedIn</a></li>
+        <li><a href="https://equitle.com">Equitle</a></li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ================= WORK ================= -->
+  <section id="work" class="section">
+    <div class="wrap">
+      <h2 class="section__title reveal"><span class="num">01</span> Selected work</h2>
+
+      <div class="cards">
+        <!-- EDIT ME: one card per project. Copy a whole <article> to add another. -->
+        <article class="card reveal">
+          <div class="card__head">
+            <h3>Equitle</h3>
+            <span class="tag">Founder</span>
+          </div>
+          <p>
+            A deal-sourcing platform for buy-side firms and brokers. Research agents
+            build a thesis, rank a market, and run outreach across email, calls, and
+            handwritten letters &mdash; all from one place.
+          </p>
+          <ul class="stack">
+            <li>TypeScript</li><li>React</li><li>Node</li><li>Postgres</li><li>AWS</li>
+          </ul>
+          <a class="card__link" href="https://equitle.com">
+            equitle.com
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg>
+          </a>
+        </article>
+
+        <article class="card reveal">
+          <div class="card__head">
+            <h3>Project two</h3>
+            <span class="tag">Side project</span>
+          </div>
+          <p>
+            EDIT ME &mdash; one short paragraph: what it is, who it&rsquo;s for, and the
+            one thing that made it hard. Skip the adjectives; the specifics do the work.
+          </p>
+          <ul class="stack">
+            <li>Add</li><li>your</li><li>stack</li>
+          </ul>
+          <a class="card__link" href="#">
+            View project
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg>
+          </a>
+        </article>
+
+        <article class="card reveal">
+          <div class="card__head">
+            <h3>Project three</h3>
+            <span class="tag">Open source</span>
+          </div>
+          <p>
+            EDIT ME &mdash; or delete this whole card. Three strong projects beat six
+            weak ones.
+          </p>
+          <ul class="stack">
+            <li>Add</li><li>your</li><li>stack</li>
+          </ul>
+          <a class="card__link" href="#">
+            View project
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg>
+          </a>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= ABOUT ================= -->
+  <section id="about" class="section section--alt">
+    <div class="wrap">
+      <h2 class="section__title reveal"><span class="num">02</span> About</h2>
+
+      <div class="about">
+        <div class="about__prose reveal">
+          <!-- EDIT ME: this is the part people actually read. Write it like you talk. -->
+          <p>
+            I like problems where the hard part isn&rsquo;t the code &mdash; it&rsquo;s
+            deciding what the system should believe. Most of my work sits at that line:
+            turning messy, partial, real-world data into something a person can act on
+            without second-guessing it.
+          </p>
+          <p>
+            Lately that means AI agents that do research end to end, pipelines that hold
+            up when the data is wrong, and interfaces that make a hundred decisions feel
+            like three.
+          </p>
+          <p>
+            Outside of that: EDIT ME &mdash; one honest line about what you do when
+            you&rsquo;re not working. It makes the whole page feel human.
+          </p>
+        </div>
+
+        <aside class="about__side reveal">
+          <h3 class="about__label">What I work with</h3>
+          <!-- EDIT ME -->
+          <ul class="chips">
+            <li>TypeScript</li><li>React</li><li>Node.js</li><li>Python</li>
+            <li>PostgreSQL</li><li>AWS</li><li>Docker</li><li>LLM tooling</li>
+          </ul>
+
+          <h3 class="about__label">Now</h3>
+          <!-- EDIT ME: keep this current. A stale "now" is worse than none. -->
+          <ul class="now">
+            <li>Building Equitle</li>
+            <li>Writing about AI agents in production</li>
+            <li>Open to interesting conversations</li>
+          </ul>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= CONTACT ================= -->
+  <section id="contact" class="section">
+    <div class="wrap contact">
+      <h2 class="section__title reveal"><span class="num">03</span> Contact</h2>
+      <p class="contact__lede reveal">
+        The fastest way to reach me is email. I read everything.
+      </p>
+      <a class="contact__mail reveal" href="mailto:shariqhafizi@gmail.com">
+        shariqhafizi@gmail.com
+      </a>
+    </div>
+  </section>
+
+</main>
+
+<footer class="footer">
+  <div class="wrap footer__inner">
+    <span>&copy; <span id="year">2026</span> Shariq Hafizi</span>
+    <a href="#top">Back to top &uarr;</a>
+  </div>
+</footer>
+
+<script src="assets/main.js"></script>
+</body>
+</html>
