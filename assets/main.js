@@ -251,6 +251,36 @@
   repaginate();
 
   /* ---------------------------------------------------------
+     1c. chapter links — the contents page jumps to a chapter
+
+     Page numbers come from DOM order rather than being typed in, so they
+     stay right if a chapter grows to two sheets or one gets reordered.
+     --------------------------------------------------------- */
+
+  $$("[data-chapter]").forEach(function (link) {
+    var panel = link.closest(".tabpanel");
+    var target = panel && panel.querySelector(link.getAttribute("href"));
+    if (!target) return;
+
+    var sheets = $$(".page", panel);
+    var pg = link.querySelector("[data-pg]");
+    if (pg) pg.textContent = String(sheets.indexOf(target) + 1);
+
+    link.addEventListener("click", function (e) {
+      e.preventDefault();          // don't put #ch-… in the URL; the hash
+      target.scrollIntoView({      // is how tabs are deep-linked
+        behavior: reducedMotion() ? "auto" : "smooth",
+        block: "start"
+      });
+      target.focus({ preventScroll: true });
+    });
+  });
+
+  function reducedMotion() {
+    return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  }
+
+  /* ---------------------------------------------------------
      2. collapsing the tabs rail
      --------------------------------------------------------- */
 

@@ -395,6 +395,46 @@ a { color: var(--blue); }
 
 .doc-byline { font-size: .92em; color: var(--txt2); margin: 0 0 .2em; }
 
+/* The small label above a chapter title. */
+.doc-chapnum {
+  font-family: var(--ui);
+  font-size: .72em; font-weight: 500;
+  letter-spacing: .12em; text-transform: uppercase;
+  color: var(--txt3);
+  margin: 0 0 .5em !important;
+}
+
+/* Table of contents: number, title, dotted leader, page number. */
+.doc-toc { list-style: none; margin: 1.4em 0 0; padding: 0; counter-reset: ch; }
+.doc-toc li { counter-increment: ch; margin-bottom: .95em; }
+
+.doc-toc a {
+  display: flex; align-items: baseline; gap: .55em;
+  text-decoration: none; color: var(--blue);
+}
+.doc-toc a::before {
+  content: counter(ch) ".";
+  color: var(--txt2);
+  min-width: 1.5em;
+  flex: none;
+}
+.doc-toc__title { flex: none; }
+.doc-toc a:hover .doc-toc__title { text-decoration: underline; }
+
+/* The dots between title and page number. Sits on its own baseline-shifted
+   line so the dots run under the gap rather than through the text. */
+.doc-toc__leader {
+  flex: 1 1 auto;
+  min-width: 1.5em;
+  border-bottom: 1px dotted var(--border-str);
+  transform: translateY(-.28em);
+}
+.doc-toc__pg {
+  flex: none;
+  color: var(--txt2);
+  font-variant-numeric: tabular-nums;
+}
+
 /* Long-form pages: a touch more air between paragraphs than a list-heavy
    page wants, and an opening paragraph set slightly larger to lead in. */
 .page--essay { line-height: 1.7; }

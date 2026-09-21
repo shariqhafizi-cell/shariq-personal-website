@@ -35,6 +35,14 @@ word boundary that still fits, then re-runs whenever the zoom or the window
 width changes. Below the mobile breakpoint it gives up on page-sized sheets and
 renders one continuous page, which is the right call on a phone.
 
+**The Equitle tab is authored a page per chapter**, not flowed — it has no
+`data-paginate` on purpose, so each chapter starts on its own sheet. The
+contents page links to them, and the page numbers beside each entry are filled
+in from DOM order at load, so they stay correct if a chapter grows to two
+sheets or the order changes. To add a chapter, add an `<article class="page"
+id="ch-yourslug" tabindex="-1">` and one `<li>` in the `.doc-toc` list pointing
+at it.
+
 **Every control in the chrome does something real.** File → Print, View →
 Dark theme and Zoom, Tools → Word count (it counts the actual text), Help →
 About. The purely decorative buttons — bold, italic, undo — are marked
@@ -66,7 +74,7 @@ Still outstanding:
 
 | Where | What to put there |
 |---|---|
-| Equitle → "Where it stands" | Who's using it, stage, team size — anything with a number |
+| Equitle → all six chapters | Each is a titled page with a placeholder; the text is still to write |
 | Overview → "what you're looking for" | One line about why someone should mail you |
 | Autonomous Future → byline date | Update it when you revise the essay |
 
