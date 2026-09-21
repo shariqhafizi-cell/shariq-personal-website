@@ -180,9 +180,14 @@
     return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
   }
 
+  /* One source of truth for all three theme controls: the toolbar button,
+     View > Dark theme, and the glass switch. */
   function paintThemeIcon() {
+    var dark = effectiveTheme() === "dark";
     var icon = $("#modeBtn .msym");
-    if (icon) icon.textContent = effectiveTheme() === "dark" ? "light_mode" : "dark_mode";
+    if (icon) icon.textContent = dark ? "light_mode" : "dark_mode";
+    var glass = $("#glassToggle");
+    if (glass) glass.setAttribute("aria-checked", dark ? "true" : "false");
   }
 
   function setTheme(mode) {
@@ -257,7 +262,12 @@
     zoomSel.addEventListener("change", function () { setZoom(parseFloat(zoomSel.value)); });
   }
 
-  // Draw the right icon for whatever we're starting on, without forcing a
+  var glassToggle = $("#glassToggle");
+  if (glassToggle) {
+    glassToggle.addEventListener("click", function () { run("theme"); });
+  }
+
+  // Draw the right state for whatever we're starting on, without forcing a
   // choice — an untouched page keeps following the OS as it changes.
   paintThemeIcon();
   window.matchMedia("(prefers-color-scheme: dark)").addEventListener

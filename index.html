@@ -379,6 +379,16 @@
 
 <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
 
+<!-- Liquid-glass theme switch. Kept in sync with the toolbar button and
+     View > Dark theme by paintThemeIcon() in main.js. -->
+<button class="glass" id="glassToggle" type="button"
+        role="switch" aria-checked="false" aria-label="Dark mode">
+  <span class="glass__sheen" aria-hidden="true"></span>
+  <span class="glass__knob" aria-hidden="true"></span>
+  <span class="glass__ico glass__ico--sun msym" aria-hidden="true">light_mode</span>
+  <span class="glass__ico glass__ico--moon msym" aria-hidden="true">dark_mode</span>
+</button>
+
 <script src="assets/main.js"></script>
 </body>
 </html>

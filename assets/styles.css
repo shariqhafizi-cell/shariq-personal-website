@@ -36,6 +36,17 @@
   --mark:        #fff2a8;
   --mark-txt:    #4a3c00;
 
+  /* liquid glass switch */
+  --glass-bg:    linear-gradient(145deg, rgba(255,255,255,.58), rgba(255,255,255,.20));
+  --glass-rim:   rgba(255,255,255,.55);
+  --glass-spec:  rgba(255,255,255,.95);
+  --glass-lip:   rgba(255,255,255,.30);
+  --glass-cast:  0 6px 18px rgba(31,31,31,.18), 0 16px 40px rgba(31,31,31,.14);
+  --glass-sheen: rgba(255,255,255,.70);
+  --glass-knob:  linear-gradient(160deg, #ffffff, #e6ebf2);
+  --glass-knob-cast: 0 2px 6px rgba(31,31,31,.30), 0 6px 14px rgba(31,31,31,.18);
+  --glass-off:   rgba(60,64,67,.42);
+
   --ui: "Roboto", -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
   --doc: Arial, "Helvetica Neue", Helvetica, sans-serif;
 }
@@ -61,6 +72,15 @@
     --page-shadow: 0 1px 3px rgba(0,0,0,.6), 0 6px 16px rgba(0,0,0,.45);
     --mark:        #5c4a00;
     --mark-txt:    #ffe98c;
+    --glass-bg:    linear-gradient(145deg, rgba(255,255,255,.18), rgba(255,255,255,.05));
+    --glass-rim:   rgba(255,255,255,.20);
+    --glass-spec:  rgba(255,255,255,.42);
+    --glass-lip:   rgba(255,255,255,.08);
+    --glass-cast:  0 6px 18px rgba(0,0,0,.55), 0 16px 40px rgba(0,0,0,.45);
+    --glass-sheen: rgba(255,255,255,.26);
+    --glass-knob:  linear-gradient(160deg, #6b7280, #343a42);
+    --glass-knob-cast: 0 2px 6px rgba(0,0,0,.6), 0 6px 14px rgba(0,0,0,.45);
+    --glass-off:   rgba(255,255,255,.34);
   }
 }
 
@@ -81,6 +101,15 @@
   --page-shadow: 0 1px 3px rgba(0,0,0,.6), 0 6px 16px rgba(0,0,0,.45);
   --mark:        #5c4a00;
   --mark-txt:    #ffe98c;
+  --glass-bg:    linear-gradient(145deg, rgba(255,255,255,.18), rgba(255,255,255,.05));
+  --glass-rim:   rgba(255,255,255,.20);
+  --glass-spec:  rgba(255,255,255,.42);
+  --glass-lip:   rgba(255,255,255,.08);
+  --glass-cast:  0 6px 18px rgba(0,0,0,.55), 0 16px 40px rgba(0,0,0,.45);
+  --glass-sheen: rgba(255,255,255,.26);
+  --glass-knob:  linear-gradient(160deg, #6b7280, #343a42);
+  --glass-knob-cast: 0 2px 6px rgba(0,0,0,.6), 0 6px 14px rgba(0,0,0,.45);
+  --glass-off:   rgba(255,255,255,.34);
 }
 
 /* ---------- base ---------- */
@@ -477,6 +506,94 @@ a { color: var(--blue); }
 }
 .toast[hidden] { display: none; }
 
+/* ---------- liquid glass theme switch ----------
+   Built from four stacked layers, back to front: the blurred glass body,
+   a soft specular sheen that slides with the knob, the knob itself, and
+   the two icons on top. Colours come from the --glass-* tokens so the
+   switch re-glazes itself in dark mode along with everything else. */
+
+.glass {
+  position: fixed;
+  right: 22px; bottom: 22px;
+  z-index: 300;
+
+  width: 92px; height: 46px;
+  padding: 0; border: 0;
+  border-radius: 999px;
+  cursor: pointer;
+  isolation: isolate;
+  -webkit-tap-highlight-color: transparent;
+
+  background: var(--glass-bg);
+  backdrop-filter: blur(18px) saturate(190%);
+  -webkit-backdrop-filter: blur(18px) saturate(190%);
+
+  box-shadow:
+    inset 0 1px 1px var(--glass-spec),   /* lit top edge */
+    inset 0 -1px 1px var(--glass-lip),   /* light bouncing off the bottom */
+    inset 0 0 0 1px var(--glass-rim),    /* the rim of the glass */
+    var(--glass-cast);                   /* what it casts on the page */
+
+  transition: background .45s ease, box-shadow .45s ease, transform .18s ease;
+}
+
+/* Without backdrop-filter the switch would be nearly invisible, so fall
+   back to something solid enough to read. */
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .glass { background: var(--pill); }
+}
+
+.glass:hover { transform: translateY(-1px); }
+.glass:active { transform: scale(.95); }
+
+.glass__sheen {
+  position: absolute; inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(58% 130% at 26% -10%, var(--glass-sheen), transparent 72%);
+  pointer-events: none;
+  z-index: 1;
+  transition: transform .55s cubic-bezier(.34, 1.4, .5, 1);
+}
+
+.glass__knob {
+  position: absolute;
+  top: 4px; left: 4px;
+  width: 38px; height: 38px;
+  border-radius: 50%;
+  background: var(--glass-knob);
+  box-shadow:
+    var(--glass-knob-cast),
+    inset 0 1px 1px rgba(255,255,255,.9),
+    inset 0 -2px 3px rgba(0,0,0,.10);
+  pointer-events: none;
+  z-index: 2;
+  /* Slight overshoot on the way across — the "liquid" part. */
+  transition: transform .55s cubic-bezier(.34, 1.4, .5, 1), background .45s ease;
+}
+
+.glass__ico {
+  position: absolute;
+  top: 4px; width: 38px; height: 38px;
+  display: grid; place-items: center;
+  font-size: 19px;
+  pointer-events: none;
+  z-index: 3;
+  transition: color .4s ease, opacity .4s ease;
+}
+.glass__ico--sun  { left: 4px;  color: #e0932a; }
+.glass__ico--moon { right: 4px; color: var(--glass-off); }
+
+/* Checked == dark mode: the knob slides right and the icons swap emphasis. */
+.glass[aria-checked="true"] .glass__knob  { transform: translateX(46px); }
+.glass[aria-checked="true"] .glass__sheen { transform: translateX(20px); }
+.glass[aria-checked="true"] .glass__ico--sun  { color: var(--glass-off); }
+.glass[aria-checked="true"] .glass__ico--moon { color: #cfe0ff; }
+
+@media (prefers-reduced-motion: reduce) {
+  .glass, .glass__knob, .glass__sheen, .glass__ico { transition: none; }
+  .glass:hover, .glass:active { transform: none; }
+}
+
 /* ---------- responsive ---------- */
 
 /* Tablet: the tabs rail costs too much width, so it collapses to a button. */
@@ -511,7 +628,9 @@ a { color: var(--blue); }
   .btn-share { padding: 8px 14px; }
   .btn-share .msym { display: none; }
   .avatar { display: none; }
-  .toast { left: 12px; right: 12px; bottom: 12px; }
+  /* Sits above the glass switch rather than underneath it. */
+  .toast { left: 12px; right: 12px; bottom: 80px; }
+  .glass { right: 14px; bottom: 14px; }
 }
 
 /* ---------- print: drop the app, keep the document ---------- */
@@ -519,7 +638,7 @@ a { color: var(--blue); }
 @media print {
   body { overflow: visible; background: #fff; }
   .topbar, .toolbarwrap, .tabs, .tabs__reopen, .ruler,
-  .canvas__foot, .skip-link, .dropdown, .toast { display: none !important; }
+  .canvas__foot, .skip-link, .dropdown, .toast, .glass { display: none !important; }
   .app, .body { display: block; height: auto; }
   .canvas { overflow: visible; background: #fff; }
   .pagezone { padding: 0; }
