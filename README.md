@@ -53,8 +53,10 @@ lives only in the contents list, where the CSS counter supplies it.
 data-optional hidden>` holds the image path in `data-src` rather than `src`.
 `main.js` pre-loads that path and only reveals the figure once it genuinely
 loads, so a photo you have not added yet shows nothing at all instead of a
-broken image. Images are capped at 240px tall (scaled with `--zoom`) so a
-portrait photo cannot push its chapter onto a second sheet.
+broken image. Images are capped in height rather than stretched to the column,
+at 520px scaled with `--zoom`, which keeps a portrait photo a sensible width.
+A photo that large pushes its chapter onto a continuation sheet, which is why
+the donuts chapter has one.
 
 **Every control in the chrome does something real.** File → Print, View →
 Dark theme and Zoom, Tools → Word count (it counts the actual text), Help →
@@ -87,7 +89,7 @@ Still outstanding:
 
 | Where | What to put there |
 |---|---|
-| The donuts photo | Save it as `assets/img/donuts.jpg` and it appears in chapter 2 by itself. Any shape works; edit the caption in `index.html` |
+| Swapping the donuts photo | Replace `assets/img/donuts.jpg`. Lowercase `.jpg`, since Pages serves from a case-sensitive filesystem |
 | Overview → "what you're looking for" | One line about why someone should mail you |
 | Autonomous Future → byline date | Update it when you revise the essay |
 

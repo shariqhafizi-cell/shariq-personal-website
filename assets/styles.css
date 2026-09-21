@@ -438,13 +438,14 @@ a { color: var(--blue); }
    missing, so an empty slot never shows a broken icon. */
 .doc-fig { margin: 1.1em 0 1.25em; }
 .doc-fig[hidden] { display: none; }
-/* Capped in height, not stretched to the column, so a photo of any shape can't
-   push the chapter onto a second sheet. The chapter leaves ~360px of room; a
-   240px photo plus its caption uses ~268px of that. */
+/* Capped in height rather than stretched to the column, so a portrait photo
+   stays a sensible width. At 520px a tall photo runs about 390px wide, roughly
+   two thirds of the text column, and the chapter it sits in carries its
+   remaining text onto a continuation sheet. */
 .doc-fig img {
   display: block;
   max-width: 100%;
-  max-height: calc(240px * var(--zoom));
+  max-height: calc(520px * var(--zoom));
   width: auto; height: auto;
   margin: 0 auto;
   border-radius: 2px;
