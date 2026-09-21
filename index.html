@@ -16,7 +16,8 @@
 <meta name="twitter:card" content="summary_large_image">
 
 <!-- Docs-blue page icon -->
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='10' fill='%231a73e8'/%3E%3Cpath d='M20 14h16l10 10v26a2 2 0 0 1-2 2H20a2 2 0 0 1-2-2V16a2 2 0 0 1 2-2Z' fill='%23fff'/%3E%3Cpath d='M36 14l10 10H36V14Z' fill='%23a8c7fa'/%3E%3Cg stroke='%231a73e8' stroke-width='2.4' stroke-linecap='round'%3E%3Cpath d='M25 32h14M25 38h14M25 44h9'/%3E%3C/g%3E%3C/svg%3E">
+<!-- The Google Docs mark: blue page, lighter folded corner, white rules -->
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath d='M18 3h20l12 12v42a4 4 0 0 1-4 4H18a4 4 0 0 1-4-4V7a4 4 0 0 1 4-4z' fill='%234285F4'/%3E%3Cpath d='M38 3l12 12H38z' fill='%23A1C2FA'/%3E%3Cg fill='%23fff'%3E%3Crect x='21' y='27' width='22' height='3.2' rx='1.6'/%3E%3Crect x='21' y='34' width='22' height='3.2' rx='1.6'/%3E%3Crect x='21' y='41' width='15' height='3.2' rx='1.6'/%3E%3C/g%3E%3C/svg%3E">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -51,10 +52,12 @@
   <header class="topbar">
     <a class="topbar__logo" href="#doc" aria-label="Home">
       <svg viewBox="0 0 64 64" aria-hidden="true">
-        <path d="M14 6h24l14 14v36a4 4 0 0 1-4 4H14a4 4 0 0 1-4-4V10a4 4 0 0 1 4-4Z" fill="#1a73e8"/>
-        <path d="M38 6l14 14H38V6Z" fill="#a8c7fa"/>
-        <g stroke="#fff" stroke-width="3" stroke-linecap="round">
-          <path d="M20 30h24M20 38h24M20 46h16"/>
+        <path d="M18 3h20l12 12v42a4 4 0 0 1-4 4H18a4 4 0 0 1-4-4V7a4 4 0 0 1 4-4z" fill="#4285F4"/>
+        <path d="M38 3l12 12H38z" fill="#A1C2FA"/>
+        <g fill="#fff">
+          <rect x="21" y="27" width="22" height="3.2" rx="1.6"/>
+          <rect x="21" y="34" width="22" height="3.2" rx="1.6"/>
+          <rect x="21" y="41" width="15" height="3.2" rx="1.6"/>
         </g>
       </svg>
     </a>
@@ -167,8 +170,9 @@
       <div class="pagezone">
 
         <!-- ---------- TAB 1: OVERVIEW ---------- -->
-        <article class="page" id="panel-overview" role="tabpanel"
+        <section class="tabpanel" id="panel-overview" role="tabpanel"
                  aria-labelledby="tab-overview" data-tab-title="Overview">
+          <article class="page">
           <h2 class="doc-h1">Shariq Hafizi</h2>
           <p class="doc-sub">Software Engineer &amp; Founder</p>
           <p class="doc-meta">
@@ -212,11 +216,18 @@
             <li>Writing about AI agents in production</li>
             <li>Open to interesting conversations</li>
           </ul>
-        </article>
+        
+          </article>
+        </section>
 
-        <!-- ---------- TAB 2: AUTONOMOUS FUTURE ---------- -->
-        <article class="page page--essay" id="panel-autonomous-future" role="tabpanel"
-                 aria-labelledby="tab-autonomous-future" data-tab-title="Autonomous Future" hidden>
+        <!-- ---------- TAB 2: AUTONOMOUS FUTURE ----------
+             One <article> here holds the whole essay. main.js re-flows it into
+             as many letter-sized sheets as it needs, splitting mid-paragraph
+             the way a real document does. -->
+        <section class="tabpanel" id="panel-autonomous-future" role="tabpanel"
+                 aria-labelledby="tab-autonomous-future"
+                 data-tab-title="Autonomous Future" data-paginate hidden>
+          <article class="page page--essay">
           <h2 class="doc-h1">Autonomous Future</h2>
           <!-- EDIT ME: change the date when you revise the essay -->
           <p class="doc-byline">Shariq Hafizi &middot; September 2026</p>
@@ -270,42 +281,9 @@
           <p>
             I don’t think the autonomous future is one where humans sit around because machines do everything for us. I think humans will continue doing what we have always done: finding harder problems. The problems we work on will change, and the amount that one person can accomplish will change dramatically, but our desire to build things and make progress will remain. To me, the most exciting promise of AI is therefore not that it will make us more efficient at the work we do today. It is that it can free us from much of that work altogether, leaving us with more time and energy to work on the problems that actually require us.
           </p>
-        </article>
-
-        <!-- ---------- TAB 3: CONTACT ---------- -->
-        <article class="page" id="panel-contact" role="tabpanel"
-                 aria-labelledby="tab-contact" data-tab-title="Contact" hidden>
-          <h2 class="doc-h1">Contact</h2>
-
-          <p>The fastest way to reach me is email. I read everything.</p>
-
-          <table class="doc-table">
-            <tbody>
-              <tr>
-                <th scope="row">Email</th>
-                <td><a href="mailto:shariqhafizi@gmail.com">shariqhafizi@gmail.com</a></td>
-              </tr>
-              <tr>
-                <th scope="row">GitHub</th>
-                <td><a href="https://github.com/shariqhafizi-cell">github.com/shariqhafizi-cell</a></td>
-              </tr>
-              <tr>
-                <th scope="row">LinkedIn</th>
-                <!-- EDIT ME -->
-                <td class="hl"><a href="#">EDIT ME &mdash; add your LinkedIn URL</a></td>
-              </tr>
-              <tr>
-                <th scope="row">Company</th>
-                <td><a href="https://equitle.com">equitle.com</a></td>
-              </tr>
-            </tbody>
-          </table>
-
-          <p class="doc-note">
-            Prefer a call? <span class="hl">EDIT ME &mdash; drop a scheduling link here,
-            or delete this line.</span>
-          </p>
-        </article>
+        
+          </article>
+        </section>
 
       </div><!-- /pagezone -->
 

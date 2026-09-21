@@ -330,6 +330,21 @@ a { color: var(--blue); }
 
 .pagezone { padding: 14px 0 0; }
 
+.tabpanel[hidden] { display: none; }
+
+/* A sheet produced by pagination gets an exact height (set inline from
+   --zoom) and clips, so every page in a run is the same size. */
+.page--sheet { overflow: hidden; }
+
+/* The last block on a sheet drops its bottom margin. Filling a page to the
+   line means that margin has nowhere to go, and it would otherwise push
+   scrollHeight past the sheet and register as an overflow. */
+.page--sheet > :last-child { margin-bottom: 0; }
+
+/* A paragraph continued from the previous sheet resumes mid-thought, so it
+   takes no extra space above it. */
+.doc-cont { margin-top: 0; }
+
 .page {
   width: var(--page-w);
   min-height: var(--page-min);
@@ -532,6 +547,9 @@ a { color: var(--blue); }
   .app, .body { display: block; height: auto; }
   .canvas { overflow: visible; background: #fff; }
   .pagezone { padding: 0; }
+  /* The flow pass sets an inline height on each sheet; that would beat these
+     rules and clip the text, so it has to be overridden outright. */
+  .page--sheet { height: auto !important; overflow: visible !important; }
   .page {
     width: auto; min-height: 0; margin: 0; padding: 0;
     box-shadow: none; background: #fff; color: #000;

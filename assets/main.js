@@ -50,11 +50,10 @@
 
   var TAB_ICONS = {
     overview:             "description",
-    "autonomous-future":  "auto_awesome",
-    contact:              "mail_outline"
+    "autonomous-future":  "auto_awesome"
   };
 
-  var panels = $$(".page");
+  var panels = $$(".tabpanel");
   var list = $(".tabs__list");
   var canvas = $("#doc");
 
@@ -119,6 +118,137 @@
   })();
 
   /* ---------------------------------------------------------
+     1b. pagination — flow a long tab across letter-sized sheets
+
+     A real document breaks when the page fills up, mid-paragraph if that's
+     where the break lands. So rather than hard-coding page breaks in the
+     HTML, the source lives in one <article> and gets re-flowed here into
+     as many sheets as it needs, again whenever the zoom or width changes.
+     --------------------------------------------------------- */
+
+  var PAGE_H_IN = 1056;   // 11in at 96dpi, matching --page-min
+  var paginated = [];     // panels we've taken over, with their source nodes
+
+  $$("[data-paginate]").forEach(function (panel) {
+    var page = panel.querySelector(".page");
+    var source = document.createDocumentFragment();
+    while (page.firstChild) source.appendChild(page.firstChild);
+    paginated.push({ panel: panel, cls: page.className, source: source });
+  });
+
+  function pageMetrics(sample) {
+    var cs = getComputedStyle(sample);
+    var zoom = parseFloat(getComputedStyle(root).getPropertyValue("--zoom")) || 1;
+    return {
+      height: PAGE_H_IN * zoom,
+      padTop: parseFloat(cs.paddingTop),
+      padBottom: parseFloat(cs.paddingBottom)
+    };
+  }
+
+  function newPage(cls, m) {
+    var p = document.createElement("article");
+    p.className = cls + " page--sheet";
+    p.style.height = m.height + "px";
+    return p;
+  }
+
+  /* Find the largest word boundary whose rendered bottom still fits above
+     `limit`, so a paragraph can be cut at the line where the page ends. */
+  function splitPoint(textNode, limit) {
+    var text = textNode.data;
+    var cuts = [];
+    var re = /\S+\s*/g, m;
+    while ((m = re.exec(text)) !== null) cuts.push(m.index + m[0].length);
+    if (cuts.length < 2) return -1;
+
+    var range = document.createRange();
+    var lo = 0, hi = cuts.length - 1, best = -1;
+    while (lo <= hi) {
+      var mid = (lo + hi) >> 1;
+      range.setStart(textNode, 0);
+      range.setEnd(textNode, cuts[mid]);
+      if (range.getBoundingClientRect().bottom <= limit) { best = mid; lo = mid + 1; }
+      else hi = mid - 1;
+    }
+    return best < 0 ? -1 : cuts[best];
+  }
+
+  function flow(entry) {
+    var panel = entry.panel;
+    var wasHidden = panel.hidden;
+    panel.hidden = false;                 // can't measure a hidden element
+
+    panel.innerHTML = "";
+    var probe = document.createElement("article");
+    probe.className = entry.cls;
+    panel.appendChild(probe);
+    var m = pageMetrics(probe);
+    panel.removeChild(probe);
+
+    // Below the mobile breakpoint the sheet fills the screen and has no
+    // fixed height, so paging it would be meaningless — keep one long page.
+    if (window.matchMedia("(max-width: 860px)").matches) {
+      var single = document.createElement("article");
+      single.className = entry.cls;
+      single.appendChild(entry.source.cloneNode(true));
+      panel.appendChild(single);
+      panel.hidden = wasHidden;
+      return;
+    }
+
+    var page = newPage(entry.cls, m);
+    panel.appendChild(page);
+
+    var queue = [];
+    var clone = entry.source.cloneNode(true);
+    while (clone.firstChild) queue.push(clone.removeChild(clone.firstChild));
+
+    var guard = 0;
+    while (queue.length && guard++ < 2000) {
+      var node = queue.shift();
+      page.appendChild(node);
+
+      if (node.nodeType !== 1) continue;   // whitespace between elements
+      var limit = page.getBoundingClientRect().top + m.height - m.padBottom;
+      if (node.getBoundingClientRect().bottom <= limit) continue;
+
+      // It overflowed. Try to cut the paragraph at the line that crosses.
+      var cut = -1;
+      if (node.tagName === "P" && node.childNodes.length === 1 &&
+          node.firstChild.nodeType === 3) {
+        cut = splitPoint(node.firstChild, limit);
+      }
+
+      if (cut > 0) {
+        var rest = node.firstChild.data.slice(cut);
+        node.firstChild.data = node.firstChild.data.slice(0, cut).replace(/\s+$/, "");
+        var cont = document.createElement("p");
+        cont.className = (node.className ? node.className + " " : "") + "doc-cont";
+        cont.textContent = rest;
+        queue.unshift(cont);
+      } else if (page.children.length > 1) {
+        // Can't split it — push the whole node to the next sheet.
+        page.removeChild(node);
+        queue.unshift(node);
+      } else {
+        // Alone on the sheet and still too tall to split. Let this one sheet
+        // grow rather than clipping text away, then carry on.
+        page.style.height = "auto";
+        continue;
+      }
+
+      page = newPage(entry.cls, m);
+      panel.appendChild(page);
+    }
+
+    panel.hidden = wasHidden;
+  }
+
+  function repaginate() { paginated.forEach(flow); }
+  repaginate();
+
+  /* ---------------------------------------------------------
      2. collapsing the tabs rail
      --------------------------------------------------------- */
 
@@ -168,6 +298,7 @@
     store.set("gdocs-zoom", z);
     var sel = $("#zoomSel");
     if (sel) sel.value = String(z);
+    repaginate();   // the sheets are a different size now, so re-flow
   }
 
   /* No data-theme attribute means "follow the OS". Once the viewer picks a
@@ -367,6 +498,14 @@
       if (openBtn && openBtn !== btn) openMenu(btn, m[1]);
     });
     menubar.appendChild(btn);
+  });
+
+  // Re-flow the pages when the window changes width, debounced so dragging
+  // a window edge doesn't re-run the measuring loop on every frame.
+  var resizeTimer;
+  window.addEventListener("resize", function () {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(repaginate, 180);
   });
 
   document.addEventListener("click", function (e) {

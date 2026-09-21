@@ -9,7 +9,7 @@ framework**. Open `index.html` in a browser and what you see is exactly what
 ships.
 
 ```
-index.html          the chrome + all five pages of content
+index.html          the chrome + the content of every tab
 assets/styles.css   all styling; colour tokens at the top
 assets/main.js      tabs, menus, zoom, theme, ruler
 .nojekyll           tells GitHub Pages to serve the files as-is
@@ -19,20 +19,30 @@ assets/main.js      tabs, menus, zoom, theme, ruler
 
 ## How it's put together
 
-**The left rail is the navigation.** Each `<article class="page">` in
-`index.html` is one tab. The buttons in the rail are generated from those
-articles at load, so the two can never drift — to add a page, copy an
-`<article>` block, give it a unique `id="panel-yourname"` and a
-`data-tab-title`, and the tab appears by itself. Add a matching icon in
-`TAB_ICONS` in `main.js` if you want one that isn't the default.
+**The left rail is the navigation.** Each `<section class="tabpanel">` in
+`index.html` is one tab, holding one or more `<article class="page">` sheets.
+The buttons in the rail are generated from those sections at load, so the two
+can never drift — to add a page, copy a `<section>` block, give it a unique
+`id="panel-yourname"` and a `data-tab-title`, and the tab appears by itself.
+Add a matching icon in `TAB_ICONS` in `main.js` if you want one that isn't the
+default.
+
+**Long tabs break across real pages.** Put `data-paginate` on a `<section>` and
+`main.js` re-flows its single `<article>` into as many letter-sized sheets as
+it needs, splitting *mid-paragraph* at the line where the page fills up, the
+way a real document does. It measures with a `Range` and binary-searches the
+word boundary that still fits, then re-runs whenever the zoom or the window
+width changes. Below the mobile breakpoint it gives up on page-sized sheets and
+renders one continuous page, which is the right call on a phone.
 
 **Every control in the chrome does something real.** File → Print, View →
 Dark theme and Zoom, Tools → Word count (it counts the actual text), Help →
 About. The purely decorative buttons — bold, italic, undo — are marked
 `data-noop` in the HTML and say so when clicked, rather than failing silently.
 
-**The tabs are linkable.** `/#experience` opens straight to that page, and the
-URL updates as you switch, so you can send someone directly to one section.
+**The tabs are linkable.** `/#autonomous-future` opens straight to that page,
+and the URL updates as you switch, so you can send someone directly to one
+section.
 
 **There are two ways to change the theme** — the button at the right end of the
 toolbar, and View → Dark theme. Both read and write the same state through
@@ -56,7 +66,7 @@ Still outstanding:
 
 | Where | What to put there |
 |---|---|
-| LinkedIn URL | Currently `#`, in both the Overview and Contact pages |
+| LinkedIn URL | Currently `#`, in the Overview contact line |
 | Overview → "what you're looking for" | One line about why someone should mail you |
 | Autonomous Future → byline date | Update it when you revise the essay |
 
@@ -71,8 +81,15 @@ one block between the two, so if you change a dark colour, change it in both.
 ### Printing
 
 `@media print` strips the entire chrome and prints just the document, in black
-on white, with the yellow placeholder highlights removed. So File → Print
-produces a clean résumé PDF, not a screenshot of a browser.
+on white, with the yellow placeholder highlights removed — so File → Print
+gives a clean PDF, not a screenshot of a browser.
+
+Paginated sheets get an inline `height` from the flow pass, which would
+otherwise beat the print rules and clip the page, so the print block resets
+`height` and `overflow` with `!important` and lets the printer do its own
+pagination. A paragraph split across two screen sheets rejoins seamlessly on
+paper, because the first half has no bottom margin and the continuation has no
+top margin.
 
 ---
 
