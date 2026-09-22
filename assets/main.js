@@ -98,9 +98,13 @@
     });
     if (canvas) canvas.scrollTop = 0;
     if (!opts.silent) store.set("gdocs-tab", String(index));
-    // Keep the URL shareable: /#experience deep-links to that tab.
+    // Keep the URL shareable as a real path: /autonomous-future, not /#…
     var key = panels[index].id.replace("panel-", "");
-    if (history.replaceState) history.replaceState(null, "", "#" + key);
+    if (history.replaceState && location.protocol.indexOf("http") === 0) {
+      try {
+        history.replaceState(null, "", index === 0 ? "/" : "/" + key);
+      } catch (e) { /* opened from a file:// path */ }
+    }
     if (opts.focus !== false) tabs[index].focus();
   }
 
@@ -118,16 +122,35 @@
     selectTab(next);
   });
 
-  // Open on the tab named in the URL, else the last one used.
+  /* The tab named in the URL wins, else the last one used.
+
+     Deep links are paths (/equitle), not fragments. GitHub Pages has no
+     rewrite rules, so a request for /equitle lands on 404.html, which stashes
+     the path and hands off to this document. Anything left over from the old
+     #hash links is still honoured. */
+  function requestedTabKeys() {
+    var stashed = null;
+    try {
+      stashed = sessionStorage.getItem("gdocs-path");
+      if (stashed) sessionStorage.removeItem("gdocs-path");
+    } catch (e) { /* storage blocked */ }
+    // Both are candidates: whichever names a real tab wins. That keeps old
+    // #hash links working, and keeps a path like /index.html from shadowing one.
+    return [
+      (stashed || location.pathname || "").replace(/^\/+|\/+$/g, "").split("/").pop(),
+      (location.hash || "").slice(1)
+    ];
+  }
+
   (function restoreTab() {
-    var byHash = -1;
-    if (location.hash) {
-      var key = location.hash.slice(1);
-      panels.forEach(function (p, i) { if (p.id === "panel-" + key) byHash = i; });
-    }
+    var byUrl = -1;
+    requestedTabKeys().forEach(function (key) {
+      if (!key || byUrl >= 0) return;
+      panels.forEach(function (p, i) { if (p.id === "panel-" + key) byUrl = i; });
+    });
     var saved = parseInt(store.get("gdocs-tab"), 10);
-    var start = byHash >= 0 ? byHash : (saved >= 0 && saved < panels.length ? saved : 0);
-    if (start !== 0) selectTab(start, { silent: byHash >= 0, focus: false });
+    var start = byUrl >= 0 ? byUrl : (saved >= 0 && saved < panels.length ? saved : 0);
+    if (start !== 0) selectTab(start, { silent: byUrl >= 0, focus: false });
   })();
 
   /* ---------------------------------------------------------

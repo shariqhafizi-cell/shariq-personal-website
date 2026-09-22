@@ -14,6 +14,7 @@ assets/styles.css   all styling; colour tokens at the top
 assets/main.js      tabs, menus, zoom, theme, ruler
 assets/img/         photos used in the document
 .nojekyll           tells GitHub Pages to serve the files as-is
+404.html            path-based deep links; no content of its own
 ```
 
 ---
@@ -63,9 +64,13 @@ Dark theme and Zoom, Tools → Word count (it counts the actual text), Help →
 About. The purely decorative buttons — bold, italic, undo — are marked
 `data-noop` in the HTML and say so when clicked, rather than failing silently.
 
-**The tabs are linkable.** `/#autonomous-future` opens straight to that page,
-and the URL updates as you switch, so you can send someone directly to one
-section.
+**The tabs are linkable as real paths.** `/autonomous-future` opens straight to
+that page and the address bar follows as you switch, so you can send someone
+directly to one section without a `#` in the link. GitHub Pages has no rewrite
+rules, so a request for a path that isn't a file lands on `404.html`; that file
+holds no content of its own, it just stashes the requested path and hands off to
+the document, which reads it back and opens the tab. Old `#hash` links still
+work and get rewritten to the clean path on arrival.
 
 **There are two ways to change the theme** — the button at the right end of the
 toolbar, and View → Dark theme. Both read and write the same state through
