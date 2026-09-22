@@ -377,7 +377,7 @@ a { color: var(--blue); }
 .doc-h1 {
   font-size: 1.85em; font-weight: 400;
   letter-spacing: -.01em; line-height: 1.2;
-  margin-bottom: .18em;
+  margin-bottom: .55em;
 }
 .doc-sub { font-size: 1.06em; color: var(--txt2); margin: 0 0 .35em; }
 .doc-meta { font-size: .92em; color: var(--txt2); margin: 0 0 1.1em; }
@@ -389,11 +389,6 @@ a { color: var(--blue); }
 .doc-h3 { font-size: 1.06em; font-weight: 700; margin: 1.1em 0 .2em; }
 
 .page p { margin: 0 0 .85em; }
-
-.doc-rule {
-  border: 0; border-top: 1px solid var(--border-str);
-  margin: 1.1em 0 .2em;
-}
 
 .doc-list { margin: 0 0 .9em; padding-left: 1.5em; }
 .doc-list li { margin-bottom: .38em; }
