@@ -528,8 +528,7 @@
       { label: "Reset zoom",  icon: "restart_alt", action: "zoom-reset" }
     ]],
     ["Insert", [
-      { label: "GitHub profile", icon: "link", href: "https://github.com/shariqhafizi-cell" },
-      { label: "Equitle",        icon: "link", href: "https://equitle.com" }
+      { label: "Equitle", icon: "link", href: "https://equitle.com" }
     ]],
     ["Tools", [
       { label: "Word count", icon: "functions", action: "word-count" }
