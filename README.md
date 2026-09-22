@@ -81,17 +81,12 @@ real one does.
 ## Editing the content
 
 Everything is in `index.html`, marked with `<!-- EDIT ME -->` comments.
-Anything still needing your input is also **highlighted in yellow on the page
-itself**, styled like a Google Docs highlight, so you can spot it by looking
-rather than by reading the source.
 
-Still outstanding:
-
-| Where | What to put there |
+| Where | What to know |
 |---|---|
 | Swapping a photo | Replace `assets/img/donuts.jpg` or `assets/img/conference.jpg`. Keep the extension lowercase, since Pages serves from a case-sensitive filesystem |
-| Overview → "what you're looking for" | One line about why someone should mail you |
-| Autonomous Future → byline date | Update it when you revise the essay |
+| Overview | Deliberately just the name and three links. The longer "Interest" piece that used to sit here is in the git history if you want it back |
+| Tab icons | Overview and Autonomous Future use Material Symbols; Equitle uses the Equitle mark, drawn as an inline SVG in `main.js` so it takes the tab's own colour instead of shipping a black PNG that would vanish in dark mode |
 
 ### Changing the colours
 

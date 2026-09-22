@@ -51,8 +51,18 @@
   // All document icons, the way a real Docs tab list looks.
   var TAB_ICONS = {
     overview:             "description",
-    "autonomous-future":  "article",
-    equitle:              "draft"
+    "autonomous-future":  "article"
+  };
+
+  // The Equitle mark, drawn rather than loaded as an image so it picks up the
+  // tab's own colour: grey at rest, white on the selected blue, correct in
+  // both themes. A black PNG would vanish against the dark theme.
+  var TAB_MARKS = {
+    equitle:
+      '<svg class="tabmark" viewBox="0 0 22 22" aria-hidden="true">' +
+      '<rect x="0" y="0" width="10" height="10"/>' +
+      '<rect x="12" y="0" width="10" height="10"/>' +
+      '<rect x="12" y="12" width="10" height="10"/></svg>'
   };
 
   var panels = $$(".tabpanel");
@@ -69,7 +79,8 @@
     btn.setAttribute("aria-controls", panel.id);
     btn.setAttribute("aria-selected", i === 0 ? "true" : "false");
     btn.tabIndex = i === 0 ? 0 : -1;
-    btn.innerHTML = '<span class="msym">' + (TAB_ICONS[key] || "description") + "</span>" +
+    btn.innerHTML = (TAB_MARKS[key] ||
+                     '<span class="msym">' + (TAB_ICONS[key] || "description") + "</span>") +
                     "<span>" + panel.getAttribute("data-tab-title") + "</span>";
     btn.addEventListener("click", function () { selectTab(i); });
     list.appendChild(btn);
